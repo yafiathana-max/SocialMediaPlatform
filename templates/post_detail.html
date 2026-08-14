@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Post Details{% endblock %}
+
+{% block content %}
+
+<h1>{{ post.author.username }}'s Post</h1>
+
+<p>{{ post.content }}</p>
+
+<small>
+    {{ post.created_at|date:"M d, Y H:i" }}
+</small>
+
+<hr>
+
+<p>
+    ❤️ Likes: {{ post.likes.count }}
+</p>
+
+<form method="POST" action="{% url 'like_post' post.id %}">
+    {% csrf_token %}
+    <button type="submit">Like / Unlike</button>
+</form>
+
+<h2>Comments</h2>
+
+{% for comment in post.comments.all %}
+    <p>
+        <strong>{{ comment.author.username }}</strong>:
+        {{ comment.content }}
+    </p>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+
+<form method="POST" action="{% url 'add_comment' post.id %}">
+    {% csrf_token %}
+
+    <input
+        type="text"
+        name="content"
+        placeholder="Write a comment..."
+        required
+    >
+
+    <button type="submit">Comment</button>
+</form>
+
+<br>
+
+<a href="{% url 'home' %}">← Back to Home</a>
+
+{% endblock %}

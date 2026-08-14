@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+
+<h1>Edit Profile</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label for="bio">Bio:</label>
+    <br>
+
+    <textarea
+        id="bio"
+        name="bio"
+        rows="5"
+        cols="50"
+        placeholder="Write something about yourself..."
+    >{{ profile.bio }}</textarea>
+
+    <br><br>
+
+    <button type="submit">Save Profile</button>
+</form>
+
+{% endblock %}
